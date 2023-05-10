@@ -1,19 +1,23 @@
  --╔══════════════════════════════════════════════════╗--
----║                    ©cato.dev                     ║---
+---║            ©cato.dev >> dsc.gg/catodev           ║---
  --╚══════════════════════════════════════════════════╝--
 
 Config = {
-	ConsolePrints = true,
-	AllowedCountrys = {	--| a list of all country codes that are allowed to connect >> https://www.iban.com/country-codes (Alpha-2 code)
+	ConsolePrints = true, --| prints a rejected text in your server console
+	AllowedCountrys = { --| a list of all country codes that are allowed to connect >> https://www.iban.com/country-codes (Alpha-2 code)
+		--| leave it empty to allow all countrys
 		'DE',
 		'AT',
+		'CH',
 	},
 	Translation = {
 		['checking'] = 'Checking your IP Address.',
 		['noIpFound'] = 'We could not find your IP Address. Please try again.',
-		['rejected'] = 'You are trying to connect with an VPM or from an not allowed Country! Please contact the Support!',
+		['rejected'] = 'You are trying to connect with an VPN or from an not allowed Country! Please contact the Support!',
 	}
 }
+
+------------------------------------------< code >------------------------------------------
 
 AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
 	local identifiers = GetPlayerIdentifiers(source)
@@ -42,7 +46,7 @@ AddEventHandler('playerConnecting', function(name, setKickReason, deferrals)
 					reject1 = false
 				end
 
-				if Config.AllowedCountrys then
+				if Config.AllowedCountrys or Config.AllowedCountrys ~= {} then
 					for _, i in pairs(Config.AllowedCountrys) do
 						if i == country then
 							reject2 = false
@@ -64,3 +68,5 @@ function dPrint(text)
 		print(text)
 	end
 end
+
+print('^7####################\n^4['..GetCurrentResourceName()..'] ^2✓ ^7Resource loaded => dsc.gg/catodev \n^7####################')
